@@ -1,8 +1,5 @@
 import { useState } from "react";
 
-
-
-
 const AddJobForm = ({ onClose, onAdd }) => {
   const [formData, setFormData] = useState({
     company: "",
