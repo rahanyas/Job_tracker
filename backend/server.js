@@ -10,8 +10,7 @@ const base_url = process.env.NODE_ENV === 'dev' ? 'http://localhost:5173' : "htt
 
 app.use(cors({
   origin : [base_url, 'https://job-tracker-hb21.onrender.com']
-}
-));
+}));
 
 if(port === undefined){
    console.log('port is undefined');
