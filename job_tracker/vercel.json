@@ -1,6 +1,6 @@
 {
   "rewrites" : [{
-    "souorce" : "/(.*)",
+    "source" : "/(.*)",
     "destination" : "/"
   }]
 }
