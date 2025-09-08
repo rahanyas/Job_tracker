@@ -1,14 +1,20 @@
 import { useState } from "react";
 
+
+
+
 const AddJobForm = ({ onClose, onAdd }) => {
   const [formData, setFormData] = useState({
     company: "",
     location: "",
     appliedOn: "",
+    gotCall:"",
     status: "Pending",
     workType: "Remote",
     cv: "",
   });
+
+
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -126,6 +132,21 @@ const AddJobForm = ({ onClose, onAdd }) => {
               value={formData.cv}
               onChange={handleChange}
               placeholder="cv_file.pdf"
+              className="w-full mt-1 p-2 border rounded-lg focus:ring-2 focus:ring-blue-500 outline-none"
+            />
+          </div>
+            
+            {/* got call */}
+           <div>
+            <label className="block text-sm font-medium text-gray-700">
+              got call
+            </label>
+            <input
+              type="text"
+              name="gotCall"
+              value={formData.gotCall}
+              onChange={handleChange}
+              placeholder=""
               className="w-full mt-1 p-2 border rounded-lg focus:ring-2 focus:ring-blue-500 outline-none"
             />
           </div>

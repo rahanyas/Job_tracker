@@ -1,18 +1,22 @@
 import mongoose from 'mongoose';
 
-const jobSchema = new mongoose.schema({
+const jobSchema = new mongoose.Schema({
    company : {
     type : String,
     required : true
    },
-   aplliedOn : {
+   appliedOn : {
     type : String,
     required : true
   },
   gotCall : {
-   type : Boolean,
+   type : String,
    required : true,
-   default : false
+   default : "No"
+  },
+  status : {
+    type : String,
+    required : true,
   },
   location : {
   type : String,
@@ -21,9 +25,13 @@ const jobSchema = new mongoose.schema({
  workType : {
   type : String,
 required : true
+},
+cv : {
+  type : String,
+  required : true
 }
-});
+}, {timestamps : true});
 
-const jobModal =  mongoose.modal('JobMoad', jobSchema);
+const jobModal =  mongoose.model('JobMoad', jobSchema);
 
 export default jobModal; 

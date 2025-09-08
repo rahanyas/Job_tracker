@@ -1,55 +1,44 @@
 import { useState } from "react";
 import AddJobForm from "./components/AddJobForm";
+import { useEffect } from "react";
+import axios from "./utils/axiosInstance";
 
 const App = () => {
-  const [jobs, setJobs] = useState([
-    {
-      id: 1,
-      company: "Google",
-      location: "Bangalore, India",
-      appliedOn: "2025-09-01",
-      status: "Pending",
-      workType: "Remote",
-      cv: "rahanyas_cv.pdf",
-    },
-    {
-      id: 2,
-      company: "Microsoft",
-      location: "Hyderabad, India",
-      appliedOn: "2025-08-25",
-      status: "Interview",
-      workType: "Hybrid",
-      cv: "rahanyas_resume.pdf",
-    },
-    {
-      id: 3,
-      company: "Amazon",
-      location: "Chennai, India",
-      appliedOn: "2025-07-15",
-      status: "Rejected",
-      workType: "On-site",
-      cv: "rahanyas_job.pdf",
-    },
-  ]);
 
+  const [jobs, setJobs] = useState([]);
   const [search, setSearch] = useState("");
   const [showForm, setShowForm] = useState(false);
 
-  const filteredJobs = jobs.filter(
-    (job) =>
-      job.company.toLowerCase().includes(search.toLowerCase()) ||
-      job.location.toLowerCase().includes(search.toLowerCase()) ||
-      job.status.toLowerCase().includes(search.toLowerCase())
-  );
+  useEffect(() => {
+     const fetchData = async () => {
+       const res = await axios.get('/getJobs');
+       console.log('data from fetchdata : ', res.data);
+       setJobs(res.data.job)
+     };
+     fetchData()
+  },[])
 
-  const addJob = (job) => {
-    setJobs([{ ...job, id: Date.now() }, ...jobs]);
-    setShowForm(false);
-  };
+    const addJob = async (data) => {
+     try {
+        const res = await axios.post('/addjob', {data});
+        setJobs((prev) => [...prev, res.data.job]);
+        setShowForm(false)
+        console.log('response from server : ', res)
+     } catch (err) {
+        console.log('error in add job function : ', err)
+     }
+    };
 
-  const deleteJob = (id) => {
-    setJobs(jobs.filter((job) => job.id !== id));
-  };
+    const deleteJob = async (jobId) => {
+       try {
+        const res = await axios.delete(`/deleteJob/${jobId}`);
+        if(res.status === 200){
+          setJobs((prev) => prev.filter((job) => job._id !== jobId));
+        }
+       } catch (err) {
+        console.log('error in delete job : ', err)
+       }
+    }
 
   return (
     <div className="min-h-screen bg-gray-100 p-6">
@@ -81,10 +70,10 @@ const App = () => {
 
       {/* Job Cards Grid */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-        {filteredJobs.length > 0 ? (
-          filteredJobs.map((job) => (
+        {jobs.length > 0 ? (
+          jobs.map((job) => (
             <div
-              key={job.id}
+              key={job._id}
               className="bg-white rounded-2xl shadow p-5 border border-gray-200 hover:shadow-lg transition flex flex-col justify-between"
             >
               <div>
@@ -121,12 +110,16 @@ const App = () => {
                   <p>
                     <span className="font-semibold">Applied CV:</span> {job.cv}
                   </p>
+
+                  <p>
+                    <span className="font-semibold">got call:</span> {job.gotCall}
+                  </p>
                 </div>
               </div>
 
               {/* Delete Button */}
               <button
-                onClick={() => deleteJob(job.id)}
+                onClick={() => deleteJob(job._id)}
                 className="mt-4 bg-red-500 text-white px-3 py-2 rounded-lg hover:bg-red-600 transition"
               >
                 Delete
