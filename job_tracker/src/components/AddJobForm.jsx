@@ -1,7 +1,7 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Building2, MapPin, Calendar, FileText, Phone } from "lucide-react";
 
-const AddJobForm = ({ onClose, onAdd }) => {
+const AddJobForm = ({ onClose, onAdd, onEdit, data }) => {
   const [formData, setFormData] = useState({
     company: "",
     location: "",
@@ -12,13 +12,23 @@ const AddJobForm = ({ onClose, onAdd }) => {
     cv: "",
   });
 
+  useEffect(() => {
+    if (data) {
+      setFormData(data)
+    }
+  }, [data])
+
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    onAdd(formData);
+    if(data){
+      onEdit(formData)
+    }else{
+      onAdd(formData)
+    }
   };
 
   return (
@@ -177,7 +187,7 @@ const AddJobForm = ({ onClose, onAdd }) => {
               type="submit"
               className="px-5 py-2 bg-gradient-to-r from-blue-500 to-indigo-600 text-white rounded-lg shadow hover:scale-105 transition"
             >
-              Save Job
+              {data ? "Update Job" : "Save Job"}
             </button>
           </div>
         </form>
