@@ -5,6 +5,7 @@ const AddJobForm = ({ onClose, onAdd, onEdit, data }) => {
   const [formData, setFormData] = useState({
     company: "",
     location: "",
+    role : "",
     appliedOn: "",
     gotCall: "",
     status: "Pending",
@@ -43,7 +44,7 @@ const AddJobForm = ({ onClose, onAdd, onEdit, data }) => {
         </button>
 
         <h2 className="text-2xl font-bold mb-6 text-gray-800 border-b pb-3">
-          ➕ Add New Job
+         {data ?"✏️edit job" : "➕ Add New Job"}
         </h2>
 
         <form onSubmit={handleSubmit} className="space-y-5">
@@ -80,6 +81,26 @@ const AddJobForm = ({ onClose, onAdd, onEdit, data }) => {
                 onChange={handleChange}
                 required
                 placeholder="New York, Remote..."
+                className="w-full pl-10 pr-3 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 outline-none"
+              />
+            </div>
+          </div>
+
+
+          {/* job role */}
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-1">
+              role
+            </label>
+            <div className="relative">
+              <MapPin className="absolute left-3 top-3 text-gray-400" size={18} />
+              <input
+                type="text"
+                name="role"
+                value={formData.role}
+                onChange={handleChange}
+                required
+                placeholder="full stack developer"
                 className="w-full pl-10 pr-3 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 outline-none"
               />
             </div>
@@ -146,10 +167,9 @@ const AddJobForm = ({ onClose, onAdd, onEdit, data }) => {
             <div className="relative">
               <FileText className="absolute left-3 top-3 text-gray-400" size={18} />
               <input
-                type="text"
+                type="file"
                 name="cv"
-                value={formData.cv}
-                onChange={handleChange}
+                onChange={(e) => setFormData({...formData, [e.target.name]: e.target.files[0]})}
                 placeholder="cv_file.pdf"
                 className="w-full pl-10 pr-3 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 outline-none"
               />

@@ -116,6 +116,9 @@ const App = () => {
                   <Briefcase className="text-blue-600" size={20} />
                   {job.company}
                 </h2>
+                  <p className="text-gray-500 flex items-center gap-1">
+                  <MapPin size={16} /> {job.cv}
+                </p>
                 <p className="text-gray-500 flex items-center gap-1">
                   <MapPin size={16} /> {job.location}
                 </p>

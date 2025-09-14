@@ -3,7 +3,10 @@ const baseUrl = import.meta.env.VITE_ENV==='dev'?import.meta.env.VITE_DEV_BACK_U
 
 console.log('base url for axios : ', baseUrl)
 const axios = Axios.create({
-  baseURL : baseUrl
+  baseURL : baseUrl,
+  headers : {
+    "Content-Type" : "multipart/form-data"
+  }
 });
 
 export default axios;

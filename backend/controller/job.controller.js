@@ -6,6 +6,7 @@ export const addJobToDb = async (req, res) => {
     console.log('data got from the client : ', data);
     const newData = await jobModal.create({
       appliedOn: data.appliedOn,
+      role : data.role,
       company: data.company,
       location: data.location,
       gotCall: data.gotCall,
